@@ -3,60 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Winner AI - Détectez les Produits Gagnants avec l'IA</title>
+    <title>AnalyticsPro - Détection Intelligente de Produits Gagnants</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --secondary: #8b5cf6;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --secondary: #10b981;
             --dark: #1e293b;
             --light: #f8fafc;
-            --gradient: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+            --gray: #64748b;
+            --border-radius: 12px;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--light);
+            background-color: #f1f5f9;
             color: var(--dark);
             line-height: 1.6;
         }
 
-        /* Header */
-        .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
+        .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 70px;
+            padding: 20px 0;
         }
 
         .logo {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
             font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 28px;
         }
 
         .nav-links {
@@ -68,915 +75,648 @@
             text-decoration: none;
             color: var(--dark);
             font-weight: 500;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
-        .nav-actions {
+        .auth-buttons {
             display: flex;
             gap: 15px;
         }
 
-        /* Hero Section */
-        .hero {
-            background: var(--gradient);
-            color: white;
-            padding: 120px 20px 80px;
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 40px;
-            opacity: 0.95;
-        }
-
-        /* Product Analysis */
-        .analysis-section {
-            max-width: 1000px;
-            margin: -60px auto 80px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            padding: 40px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .analysis-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 20px;
-        }
-
-        .tab {
-            padding: 12px 24px;
-            background: #f8fafc;
-            border: none;
-            border-radius: 10px;
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
+            transition: var(--transition);
+            border: none;
         }
 
-        .tab.active {
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
             background: var(--primary);
             color: white;
         }
 
-        .analysis-form {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+        .btn-primary:hover {
+            background: var(--primary-dark);
         }
 
-        .url-input {
-            flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .url-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .analyze-btn {
-            background: var(--gradient);
+        .btn-outline:hover {
+            background: var(--primary);
             color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
         }
 
-        .analyze-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Quick Actions - CORRIGÉ */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .quick-action {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 12px;
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            backdrop-filter: blur(10px);
-            color: white;
         }
 
-        .quick-action:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.5);
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
         }
 
-        .quick-action i {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        /* Results */
-        .results-section {
-            display: none;
-            margin-top: 40px;
-            padding: 30px;
-            background: #f8fafc;
-            border-radius: 15px;
-            border-left: 5px solid var(--primary);
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-
-        .product-score {
-            background: var(--gradient);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 700;
+        .hero p {
             font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
         }
 
-        .product-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        /* Process Section */
+        .section {
+            padding: 80px 0;
         }
 
-        .metric {
+        .section-header {
             text-align: center;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 12px;
+            margin-bottom: 60px;
         }
 
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .metric-label {
-            color: #64748b;
-            font-size: 0.9rem;
-        }
-
-        /* Top Winners avec images */
-        .winners-section {
-            padding: 80px 20px;
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
+        .section-header h2 {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 50px;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            color: var(--dark);
         }
 
-        .winners-grid {
-            max-width: 1200px;
+        .section-header p {
+            color: var(--gray);
+            max-width: 600px;
             margin: 0 auto;
+        }
+
+        .process-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
 
-        .winner-card {
+        .process-card {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
         }
 
-        .winner-card:hover {
+        .process-card:hover {
             transform: translateY(-10px);
         }
 
-        .winner-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-
-        .winner-badge {
-            background: var(--success);
-            color: white;
-            padding: 8px 15px;
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .winner-content {
-            padding: 25px;
-            position: relative;
-        }
-
-        .winner-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .winner-metric {
-            text-align: center;
-        }
-
-        .winner-metric-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .winner-metric-label {
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        /* How It Works avec flèches créatives */
-        .how-it-works {
-            padding: 80px 20px;
-            background: #f8fafc;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .how-it-works::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient);
-        }
-
-        .process-steps {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 80px;
-            left: 10%;
-            right: 10%;
-            height: 3px;
-            background: var(--gradient);
-            z-index: 1;
-        }
-
-        .step {
-            text-align: center;
-            padding: 30px 20px;
-            position: relative;
-            z-index: 2;
-            flex: 1;
-        }
-
-        .step-connector {
-            position: absolute;
-            top: 80px;
-            left: 50%;
-            width: 50px;
-            height: 30px;
-            z-index: 3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-
-        .step-icon {
-            width: 100px;
-            height: 100px;
-            background: white;
+        .process-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(37, 99, 235, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            color: var(--primary);
-            font-size: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 3px solid var(--primary);
-            position: relative;
-            z-index: 4;
         }
 
-        .step-number {
-            background: var(--primary);
+        .process-icon i {
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .process-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .process-card p {
+            color: var(--gray);
+        }
+
+        /* Trending Products */
+        .trending-products {
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .product-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--dark);
+            flex: 1;
+            margin-right: 10px;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+
+        .trending-badge {
+            background: var(--secondary);
             color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            font-size: 0.8rem;
+            padding: 5px 10px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .product-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .score-value {
             font-weight: 700;
             font-size: 1.2rem;
-            position: relative;
-            z-index: 4;
+            color: var(--dark);
         }
 
-        .step h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
+        .score-bar {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        .step p {
-            color: #64748b;
-            line-height: 1.6;
+        .score-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        .product-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+        }
+
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .map-image {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .countries-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .country-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .country-item:hover {
+            background: #e2e8f0;
+        }
+
+        .country-flag {
+            width: 40px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .country-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .country-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
         /* CTA Section */
-        .cta-section {
-            background: var(--gradient);
+        .cta {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: white;
-            padding: 80px 20px;
             text-align: center;
+            padding: 80px 0;
         }
 
-        .cta-title {
+        .cta h2 {
             font-size: 2.5rem;
-            font-weight: 700;
             margin-bottom: 20px;
         }
 
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
         }
 
         /* Footer */
-        .footer {
+        footer {
             background: var(--dark);
             color: white;
-            padding: 50px 20px;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .copyright {
             text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.9rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
             .nav-links {
-                display: none;
+                gap: 15px;
             }
-            
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
-            
-            .analysis-form {
-                flex-direction: column;
-            }
-            
-            .analysis-section {
-                margin: -40px 20px 60px;
-                padding: 30px 20px;
-            }
-            
-            .quick-actions {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .process-steps {
-                flex-direction: column;
-            }
-            
-            .process-steps::before {
-                display: none;
-            }
-            
-            .step-connector {
-                display: none;
+
+            .section-header h2 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">ProductWinner.ai</div>
-            <div class="nav-links">
-                <a href="#analysis">Analyser un produit</a>
-                <a href="#winners">Top Winners</a>
-                <a href="#how-it-works">Comment ça marche</a>
-                <a href="#pricing">Tarifs</a>
-            </div>
-            <div class="nav-actions">
-                <button class="btn btn-secondary">Connexion</button>
-                <button class="btn btn-primary">Essai Gratuit</button>
-            </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-chart-line"></i>
+                    <span>AnalyticsPro</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#">Accueil</a>
+                    <a href="#">Fonctionnalités</a>
+                    <a href="#">Tarifs</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Connexion</button>
+                    <button class="btn btn-primary">Essai Gratuit</button>
+                </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1>Détectez les Produits Gagnants Avant Vos Concurrents</h1>
-            <p>L'IA la plus avancée pour analyser les tendances, calculer les marges et identifier les opportunités de marché en temps réel</p>
-            <div class="analysis-form">
-                <input type="text" class="url-input" placeholder="🔗 Collez un lien AliExpress, Shopify, Amazon ou CJ Dropshipping...">
-                <button class="analyze-btn" onclick="analyzeProduct()">
-                    <i class="fas fa-bolt"></i> Analyser Maintenant
-                </button>
+        <div class="container">
+            <h1>Détectez les Produits Gagnants avec l'IA</h1>
+            <p>Notre plateforme analyse en temps réel les marchés pour identifier les opportunités de profit avec une précision inégalée.</p>
+            <button class="btn btn-primary" style="background: white; color: var(--primary);">Démarrer l'analyse</button>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Comment Nous Détectons les Winners</h2>
+                <p>Notre processus en 4 étapes pour identifier les produits à fort potentiel de vente</p>
             </div>
-            <div class="quick-actions">
-                <div class="quick-action" onclick="showExample('aliexpress')">
-                    <i class="fas fa-shopping-cart"></i>
-                    <div>AliExpress</div>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Collecte Intelligente</h3>
+                    <p>Nous scannons en temps réel AliExpress, Shopify, Amazon, TikTok et les réseaux sociaux pour collecter des données précieuses.</p>
                 </div>
-                <div class="quick-action" onclick="showExample('shopify')">
-                    <i class="fas fa-store"></i>
-                    <div>Shopify</div>
+                <div class="process-card">
+                    <div class="process-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Analyse IA Avancée</h3>
+                    <p>Notre algorithme évalue 50+ critères : tendances, concurrence, marges, saisonnalité pour une analyse complète.</p>
                 </div>
-                <div class="quick-action" onclick="showExample('amazon')">
-                    <i class="fab fa-amazon"></i>
-                    <div>Amazon</div>
+                <div class="process-card">
+                    <div class="process-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Scoring Prédictif</h3>
+                    <p>Chaque produit reçoit un score de 1 à 100 basé sur son potentiel de profit réel et sa viabilité commerciale.</p>
                 </div>
-                <div class="quick-action" onclick="showRandomWinner()">
-                    <i class="fas fa-random"></i>
-                    <div>Aléatoire</div>
+                <div class="process-card">
+                    <div class="process-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Recommandations Actionnables</h3>
+                    <p>Nous vous disons exactement quoi faire : prix optimal, stratégies marketing, et pays à cibler pour maximiser vos profits.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Analysis Results -->
-    <section class="analysis-section" id="analysis">
-        <div class="analysis-tabs">
-            <button class="tab active" onclick="switchTab('analysis')">Analyse Produit</button>
-            <button class="tab" onclick="switchTab('winners')">Top Winners du Jour</button>
-            <button class="tab" onclick="switchTab('suppliers')">Fournisseurs Recommandés</button>
-        </div>
+    <!-- Trending Products -->
+    <section class="section trending-products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Produits Tendances du Moment</h2>
+                <p>Découvrez les produits identifiés par notre IA comme ayant le plus fort potentiel de vente</p>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Montre connectée" class="product-image">
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div class="product-name">Montre Connectée Écologique avec Suivi d'Activité</div>
+                            <div class="trending-badge">
+                                <i class="fas fa-fire"></i> TRENDING
+                            </div>
+                        </div>
+                        <div class="product-score">
+                            <div class="score-value">94</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 94%;"></div>
+                            </div>
+                        </div>
+                        <p>Montre intelligente avec écran AMOLED, autonomie de 7 jours et tracking d'activité avancé.</p>
+                        <div class="product-details">
+                            <div>Prix conseillé: €89.99</div>
+                            <div>Marge: 42%</div>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="results-section" id="resultsSection">
-            <!-- Les résultats d'analyse apparaîtront ici -->
-        </div>
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25856cd63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de sel" class="product-image">
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div class="product-name">Lampe de Sel de l'Himalaya Naturelle</div>
+                            <div class="trending-badge">
+                                <i class="fas fa-fire"></i> TRENDING
+                            </div>
+                        </div>
+                        <div class="product-score">
+                            <div class="score-value">88</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 88%;"></div>
+                            </div>
+                        </div>
+                        <p>Lampe décorative en cristal de sel naturel avec éclairage LED et contrôle de luminosité.</p>
+                        <div class="product-details">
+                            <div>Prix conseillé: €34.99</div>
+                            <div>Marge: 65%</div>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- Top Winners Preview -->
-        <div class="winners-preview" id="winnersPreview">
-            <h3 style="margin-bottom: 20px; text-align: center;">🔥 Top 5 des Produits Gagnants Aujourd'hui</h3>
-            <div class="winners-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                <!-- Winners will be dynamically inserted -->
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Casque sans fil" class="product-image">
+                    <div class="product-info">
+                        <div class="product-header">
+                            <div class="product-name">Casque Audio Sans Fil Réduction de Bruit Active</div>
+                            <div class="trending-badge">
+                                <i class="fas fa-fire"></i> TRENDING
+                            </div>
+                        </div>
+                        <div class="product-score">
+                            <div class="score-value">91</div>
+                            <div class="score-bar">
+                                <div class="score-fill" style="width: 91%;"></div>
+                            </div>
+                        </div>
+                        <p>Casque over-ear avec ANC, autonomie 30h, Bluetooth 5.2 et qualité audio HD.</p>
+                        <div class="product-details">
+                            <div>Prix conseillé: €129.99</div>
+                            <div>Marge: 38%</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Top Winners Section -->
-    <section class="winners-section" id="winners">
-        <h2 class="section-title">🎯 Nos Dernières Découvertes Winners</h2>
-        <div class="winners-grid">
-            <!-- Winner Cards will be dynamically generated -->
-        </div>
-    </section>
-
-    <!-- How It Works avec flèches créatives -->
-    <section class="how-it-works" id="how-it-works">
-        <h2 class="section-title">⚡ Comment Nous Détectons les Winners</h2>
-        <div class="process-steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-icon"><i class="fas fa-database"></i></div>
-                <h3>Collecte Intelligente</h3>
-                <p>Nous scannons en temps réel AliExpress, Shopify, Amazon, TikTok et les réseaux sociaux</p>
+    <!-- Map Section -->
+    <section class="section map-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pays à Fort Potentiel</h2>
+                <p>Notre analyse identifie les marchés les plus prometteurs pour vos produits</p>
             </div>
-            
-            <div class="step-connector" style="left: 25%;">➡️</div>
-            
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-icon"><i class="fas fa-brain"></i></div>
-                <h3>Analyse IA Avancée</h3>
-                <p>Notre algorithme évalue 50+ critères : tendances, concurrence, marges, saisonnalité</p>
-            </div>
-            
-            <div class="step-connector" style="left: 50%;">➡️</div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
-                <h3>Scoring Prédictif</h3>
-                <p>Chaque produit reçoit un score de 1 à 100 basé sur son potentiel de profit réel</p>
-            </div>
-            
-            <div class="step-connector" style="left: 75%;">➡️</div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-icon"><i class="fas fa-rocket"></i></div>
-                <h3>Recommandations Actionnables</h3>
-                <p>Nous vous disons exactement quoi faire : prix, marketing, pays à cibler</p>
+            <div class="map-container">
+                <img src="https://images.unsplash.com/photo-1487088678257-3a541e6e3922?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Carte mondiale des opportunités" class="map-image">
+                <div class="countries-list">
+                    <div class="country-item">
+                        <img src="https://flagcdn.com/w80/us.png" alt="USA" class="country-flag">
+                        <div class="country-info">
+                            <h4>États-Unis</h4>
+                            <p>Potentiel élevé pour produits tech</p>
+                        </div>
+                    </div>
+                    <div class="country-item">
+                        <img src="https://flagcdn.com/w80/de.png" alt="Allemagne" class="country-flag">
+                        <div class="country-info">
+                            <h4>Allemagne</h4>
+                            <p>Fort intérêt pour produits écologiques</p>
+                        </div>
+                    </div>
+                    <div class="country-item">
+                        <img src="https://flagcdn.com/w80/au.png" alt="Australie" class="country-flag">
+                        <div class="country-info">
+                            <h4>Australie</h4>
+                            <p>Croissance e-commerce en hausse</p>
+                        </div>
+                    </div>
+                    <div class="country-item">
+                        <img src="https://flagcdn.com/w80/ca.png" alt="Canada" class="country-flag">
+                        <div class="country-info">
+                            <h4>Canada</h4>
+                            <p>Marché mature pour produits lifestyle</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 class="cta-title">Prêt à Multiplier Votre Chiffre d'Affaires ?</h2>
-        <p>Rejoignez les 2,847 e-commerçants qui utilisent déjà ProductWinner.ai</p>
-        <div class="cta-buttons">
-            <a href="#" class="btn btn-primary">
-                <i class="fas fa-play-circle"></i> Essai Gratuit 7 Jours
-            </a>
-            <a href="#" class="btn btn-secondary">
-                <i class="fas fa-video"></i> Voir la Démo
-            </a>
+    <section class="cta">
+        <div class="container">
+            <h2>Prêt à Découvrir Votre Prochain Produit Gagnant?</h2>
+            <p>Rejoignez des milliers de professionnels qui utilisent notre plateforme pour maximiser leurs profits.</p>
+            <button class="btn btn-primary" style="background: white; color: var(--primary);">Essai Gratuit 14 Jours</button>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 ProductWinner.ai - L'outil préféré des e-commerçants intelligents</p>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AnalyticsPro</h3>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">Presse</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Fonctionnalités</h3>
+                    <ul>
+                        <li><a href="#">Détection de produits</a></li>
+                        <li><a href="#">Analyse de marché</a></li>
+                        <li><a href">Prédictions de tendances</a></li>
+                        <li><a href="#">Outils marketing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Ressources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Webinaires</a></li>
+                        <li><a href="#">Documentation API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 AnalyticsPro. Tous droits réservés.
+            </div>
+        </div>
     </footer>
 
     <script>
-        // Données mockées pour les produits winners avec images
-        const topWinners = [
-            {
-                id: 1,
-                name: "Montre Intelligente Fitness Tracker",
-                score: 94,
-                price: 18.50,
-                margin: 45.00,
-                orders: 12500,
-                supplier: "AliExpress",
-                trend: "+320%",
-                badge: "🔥 TRENDING",
-                image: "⌚"
-            },
-            {
-                id: 2,
-                name: "Lampe de Bureau LED Réglable",
-                score: 87,
-                price: 12.80,
-                margin: 32.00,
-                orders: 8400,
-                supplier: "CJ Dropshipping",
-                trend: "+180%",
-                badge: "⭐ POPULAIRE",
-                image: "💡"
-            },
-            {
-                id: 3,
-                name: "Support Téléphone Voiture Magnétique",
-                score: 82,
-                price: 8.20,
-                margin: 25.00,
-                orders: 15600,
-                supplier: "1688.com",
-                trend: "+210%",
-                badge: "🚀 CROISSANCE",
-                image: "📱"
-            },
-            {
-                id: 4,
-                name: "Coussin de Massage Shiatsu",
-                score: 91,
-                price: 35.00,
-                margin: 65.00,
-                orders: 7200,
-                supplier: "AliExpress",
-                trend: "+280%",
-                badge: "💎 PREMIUM",
-                image: "🧘"
-            },
-            {
-                id: 5,
-                name: "Kit de Jardinage Intérieur",
-                score: 78,
-                price: 22.50,
-                margin: 40.00,
-                orders: 5300,
-                supplier: "Shopify",
-                trend: "+150%",
-                badge: "🌿 SAIN",
-                image: "🌱"
-            }
-        ];
-
-        // Fonction pour afficher un exemple d'analyse
-        function showExample(type) {
-            const examples = {
-                aliexpress: "Montre Intelligente Fitness Tracker",
-                shopify: "Lampe de Bureau LED Réglable",
-                amazon: "Support Téléphone Voiture Magnétique"
-            };
-            
-            document.querySelector('.url-input').value = `https://${type}.com/product/${examples[type].toLowerCase().replace(/ /g, '-')}`;
-            analyzeProduct();
-        }
-
-        // Fonction pour analyser un produit
-        function analyzeProduct() {
-            const url = document.querySelector('.url-input').value;
-            
-            if (!url) {
-                alert('Veuillez entrer une URL de produit');
-                return;
-            }
-
-            // Simulation d'analyse IA
-            const productName = extractProductName(url);
-            const analysis = generateIAnalysis(productName);
-            
-            displayResults(analysis);
-            displayTopWinnersPreview();
-        }
-
-        // Fonction pour extraire le nom du produit de l'URL
-        function extractProductName(url) {
-            const names = [
-                "Montre Intelligente Fitness Tracker",
-                "Lampe de Bureau LED Réglable",
-                "Support Téléphone Voiture Magnétique",
-                "Coussin de Massage Shiatsu",
-                "Kit de Jardinage Intérieur",
-                "Drone avec Caméra 4K",
-                "Enceinte Bluetooth Étanche",
-                "Chargeur Sans Fil Rapide"
-            ];
-            return names[Math.floor(Math.random() * names.length)];
-        }
-
-        // Fonction pour générer l'analyse IA
-        function generateIAnalysis(productName) {
-            const score = Math.floor(Math.random() * 30) + 70; // Score entre 70-100
-            const wholesalePrice = (Math.random() * 30 + 10).toFixed(2);
-            const retailPrice = (wholesalePrice * 3.5).toFixed(2);
-            const margin = (retailPrice - wholesalePrice).toFixed(2);
-            const monthlyOrders = Math.floor(Math.random() * 10000) + 2000;
-            const competition = Math.floor(Math.random() * 40) + 10;
-
-            return `
-                <div class="product-card">
-                    <div class="product-header">
-                        <h2 style="margin: 0; flex: 1;">${productName}</h2>
-                        <div class="product-score">${score}/100 WINNER</div>
-                    </div>
-                    
-                    <div class="product-metrics">
-                        <div class="metric">
-                            <div class="metric-value">${wholesalePrice}€</div>
-                            <div class="metric-label">Prix Grossiste</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-value">${retailPrice}€</div>
-                            <div class="metric-label">Prix de Vente Conseillé</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-value">${margin}€</div>
-                            <div class="metric-label">Marge/Unité</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-value">${monthlyOrders.toLocaleString()}</div>
-                            <div class="metric-label">Commandes/Mois</div>
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 25px;">
-                        <div>
-                            <h4 style="margin-bottom: 15px; color: var(--success);">✅ Points Forts</h4>
-                            <ul style="color: #475569; line-height: 1.8;">
-                                <li>Demande en croissance exponentielle</li>
-                                <li>Marge bénéficiaire excellente</li>
-                                <li>Concurrence gérable</li>
-                                <li>Produit non saisonnier</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4 style="margin-bottom: 15px; color: var(--primary);">🎯 Recommandations</h4>
-                            <ul style="color: #475569; line-height: 1.8;">
-                                <li><strong>Pays à cibler:</strong> France, Canada, Belgique</li>
-                                <li><strong>Budget pub:</strong> 500-1000€/mois</li>
-                                <li><strong>Canaux:</strong> TikTok, Facebook Ads</li>
-                                <li><strong>Fournisseur:</strong> AliExpress Premium</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div style="margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #d1fae5, #ecfdf5); border-radius: 12px; border-left: 4px solid var(--success);">
-                        <h4 style="color: #065f46; margin-bottom: 10px;">💡 Stratégie de Lancement</h4>
-                        <p style="color: #065f46; margin-bottom: 15px;">Ce produit a un potentiel de <strong>${(monthlyOrders * margin * 0.3).toLocaleString()}€/mois</strong> de profit avec une stratégie optimisée.</p>
-                        <button class="analyze-btn" style="background: var(--success);">
-                            <i class="fas fa-rocket"></i> Démarrer le Lancement
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Fonction pour afficher les résultats
-        function displayResults(analysis) {
-            document.getElementById('resultsSection').innerHTML = analysis;
-            document.getElementById('resultsSection').style.display = 'block';
-            document.getElementById('winnersPreview').style.display = 'none';
-            
-            // Scroll vers les résultats
-            document.getElementById('resultsSection').scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-
-        // Fonction pour afficher l'aperçu des winners
-        function displayTopWinnersPreview() {
-            const previewContainer = document.querySelector('.winners-preview .winners-grid');
-            previewContainer.innerHTML = topWinners.slice(0, 4).map(winner => `
-                <div class="winner-card">
-                    <div class="winner-image">
-                        ${winner.image}
-                    </div>
-                    <div class="winner-content">
-                        <div class="winner-badge">${winner.badge}</div>
-                        <h4 style="margin-bottom: 15px;">${winner.name}</h4>
-                        <div class="winner-metrics">
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.score}/100</div>
-                                <div class="winner-metric-label">Score</div>
-                            </div>
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.margin}€</div>
-                                <div class="winner-metric-label">Marge</div>
-                            </div>
-                        </div>
-                        <button class="analyze-btn" style="width: 100%;" onclick="analyzeWinner(${winner.id})">
-                            <i class="fas fa-chart-line"></i> Analyser ce Produit
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Fonction pour afficher un winner aléatoire
-        function showRandomWinner() {
-            const randomWinner = topWinners[Math.floor(Math.random() * topWinners.length)];
-            document.querySelector('.url-input').value = `https://example.com/product/${randomWinner.name.toLowerCase().replace(/ /g, '-')}`;
-            analyzeProduct();
-        }
-
-        // Fonction pour analyser un winner spécifique
-        function analyzeWinner(winnerId) {
-            const winner = topWinners.find(w => w.id === winnerId);
-            document.querySelector('.url-input').value = `https://example.com/product/${winner.name.toLowerCase().replace(/ /g, '-')}`;
-            analyzeProduct();
-        }
-
-        // Fonction pour switcher d'onglet
-        function switchTab(tabName) {
-            // Mettre à jour les onglets actifs
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-
-            // Afficher le contenu approprié
-            if (tabName === 'winners') {
-                document.getElementById('resultsSection').style.display = 'none';
-                document.getElementById('winnersPreview').style.display = 'block';
-            } else {
-                document.getElementById('resultsSection').style.display = 'block';
-                document.getElementById('winnersPreview').style.display = 'none';
-            }
-        }
-
-        // Initialisation au chargement
+        // Simple animation for product cards on scroll
         document.addEventListener('DOMContentLoaded', function() {
-            displayTopWinnersPreview();
+            const productCards = document.querySelectorAll('.product-card');
             
-            // Remplir la section des winners avec images
-            const winnersContainer = document.querySelector('.winners-section .winners-grid');
-            winnersContainer.innerHTML = topWinners.map(winner => `
-                <div class="winner-card">
-                    <div class="winner-image">
-                        ${winner.image}
-                    </div>
-                    <div class="winner-content">
-                        <div class="winner-badge">${winner.badge}</div>
-                        <h4 style="margin-bottom: 15px;">${winner.name}</h4>
-                        <div style="color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">
-                            <i class="fas fa-tag"></i> ${winner.supplier} • <i class="fas fa-chart-line"></i> ${winner.trend}
-                        </div>
-                        <div class="winner-metrics">
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.score}/100</div>
-                                <div class="winner-metric-label">Score IA</div>
-                            </div>
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.margin}€</div>
-                                <div class="winner-metric-label">Marge</div>
-                            </div>
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.price}€</div>
-                                <div class="winner-metric-label">Prix</div>
-                            </div>
-                            <div class="winner-metric">
-                                <div class="winner-metric-value">${winner.orders.toLocaleString()}</div>
-                                <div class="winner-metric-label">Commandes</div>
-                            </div>
-                        </div>
-                        <button class="analyze-btn" style="width: 100%; margin-top: 15px;" onclick="analyzeWinner(${winner.id})">
-                            <i class="fas fa-chart-line"></i> Analyser en Détail
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            productCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
         });
     </script>
 </body>
