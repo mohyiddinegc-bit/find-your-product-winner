@@ -75,35 +75,26 @@
             overflow: hidden;
         }
 
-        .logo-icon .gem {
-            width: 22px;
-            height: 22px;
+        .logo-icon .diamond {
+            width: 30px;
+            height: 30px;
             background: var(--accent);
             transform: rotate(45deg);
-            border-radius: 4px;
+            border-radius: 6px;
+            position: relative;
         }
 
-        .logo-icon .graph {
+        .logo-icon .diamond::after {
+            content: '';
             position: absolute;
-            bottom: 8px;
-            left: 8px;
-            width: 34px;
-            height: 14px;
-            display: flex;
-            align-items: flex-end;
-            gap: 3px;
+            top: 5px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            transform: rotate(45deg);
         }
-
-        .logo-icon .mini-bar {
-            width: 4px;
-            background: var(--secondary);
-            border-radius: 1px 1px 0 0;
-        }
-
-        .logo-icon .mini-bar-1 { height: 6px; }
-        .logo-icon .mini-bar-2 { height: 9px; }
-        .logo-icon .mini-bar-3 { height: 4px; }
-        .logo-icon .mini-bar-4 { height: 11px; }
 
         .logo-text {
             font-size: 1.8rem;
@@ -241,6 +232,7 @@
         }
 
         .search-box {
+            position: relative;
             display: flex;
             gap: 15px;
             margin-bottom: 30px;
@@ -259,6 +251,40 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 10;
+            display: none;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .suggestion-item:hover {
+            background: #f8fafc;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
         }
 
         .search-results {
@@ -522,17 +548,6 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             margin-bottom: 40px;
-        }
-
-        .chart-placeholder {
-            height: 300px;
-            background: #f8fafc;
-            border-radius: var(--border-radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            font-weight: 600;
         }
 
         /* Products Section */
@@ -964,13 +979,7 @@
             <nav class="navbar">
                 <a href="#" class="logo">
                     <div class="logo-icon">
-                        <div class="gem"></div>
-                        <div class="graph">
-                            <div class="mini-bar mini-bar-1"></div>
-                            <div class="mini-bar mini-bar-2"></div>
-                            <div class="mini-bar mini-bar-3"></div>
-                            <div class="mini-bar mini-bar-4"></div>
-                        </div>
+                        <div class="diamond"></div>
                     </div>
                     <div class="logo-text">
                         <span class="trove">trove</span><span class="io">.io</span>
@@ -980,8 +989,8 @@
                     <a href="#accueil">Accueil</a>
                     <a href="#fonctionnalites">Fonctionnalités</a>
                     <a href="#produits">Produits</a>
+                    <a href="#carte">Carte</a>
                     <a href="#tarifs">Tarifs</a>
-                    <a href="#temoignages">Témoignages</a>
                 </div>
                 <div class="auth-buttons">
                     <button class="btn btn-outline">Connexion</button>
@@ -1025,8 +1034,14 @@
                 <p style="color: var(--gray); margin-bottom: 30px;">Entrez le nom d'un produit pour savoir s'il a du potentiel</p>
                 
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Ex: Montre connectée, Lampe de sel, Casque audio..." id="product-search">
+                    <input type="text" class="search-input" placeholder="Ex: Montre connectée, Tapis de yoga, Casque audio..." id="product-search">
                     <button class="btn btn-primary" id="analyze-btn">Analyser</button>
+                    <div class="search-suggestions" id="search-suggestions">
+                        <div class="suggestion-item" data-product="montre connectée">Montre connectée</div>
+                        <div class="suggestion-item" data-product="tapis de yoga">Tapis de yoga</div>
+                        <div class="suggestion-item" data-product="casque audio">Casque audio</div>
+                        <div class="suggestion-item" data-product="pot de plante">Pot de plante autonome</div>
+                    </div>
                 </div>
                 
                 <div class="search-results" id="search-results">
@@ -1112,131 +1127,6 @@
         </div>
     </section>
 
-    <!-- Dashboard Section -->
-    <section class="section dashboard-section" id="dashboard-section" style="display: none;">
-        <div class="container">
-            <div class="section-header">
-                <h2>Votre Analyse en Temps Réel</h2>
-                <p>Données actualisées toutes les 5 minutes pour une prise de décision optimale</p>
-            </div>
-            
-            <div class="dashboard-tabs">
-                <div class="tab active" data-tab="overview">Aperçu Général</div>
-                <div class="tab" data-tab="products">Produits Tendances</div>
-                <div class="tab" data-tab="markets">Marchés Porteurs</div>
-            </div>
-            
-            <div class="dashboard-content active" id="overview-tab">
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-value">3,247</div>
-                        <div class="metric-label">Produits Analysés</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">142</div>
-                        <div class="metric-label">Nouveaux Produits Aujourd'hui</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">87%</div>
-                        <div class="metric-label">Précision des Prédictions</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-value">24</div>
-                        <div class="metric-label">Pays Analysés</div>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <h3 style="margin-bottom: 20px;">Tendances des Catégories de Produits</h3>
-                    <canvas id="trendsChart" height="300"></canvas>
-                </div>
-            </div>
-            
-            <div class="dashboard-content" id="products-tab">
-                <div class="products-grid">
-                    <!-- Product 1 -->
-                    <div class="product-card active" data-product="smartwatch">
-                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Montre connectée" class="product-image">
-                        <div class="product-info">
-                            <div class="product-header">
-                                <div class="product-name">Montre Connectée Écologique avec Suivi d'Activité</div>
-                                <div class="trending-badge">
-                                    <i class="fas fa-fire"></i> TRENDING
-                                </div>
-                            </div>
-                            <div class="product-score">
-                                <div class="score-value">94</div>
-                                <div class="score-bar">
-                                    <div class="score-fill" style="width: 94%;"></div>
-                                </div>
-                            </div>
-                            <p>Montre intelligente avec écran AMOLED, autonomie de 7 jours et tracking d'activité avancé.</p>
-                            <div class="product-details">
-                                <div>Prix conseillé: €89.99</div>
-                                <div>Marge: 42%</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 2 -->
-                    <div class="product-card" data-product="saltlamp">
-                        <img src="https://images.unsplash.com/photo-1584305574647-0cc949718d56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de sel" class="product-image">
-                        <div class="product-info">
-                            <div class="product-header">
-                                <div class="product-name">Lampe de Sel de l'Himalaya Naturelle</div>
-                                <div class="trending-badge">
-                                    <i class="fas fa-fire"></i> TRENDING
-                                </div>
-                            </div>
-                            <div class="product-score">
-                                <div class="score-value">88</div>
-                                <div class="score-bar">
-                                    <div class="score-fill" style="width: 88%;"></div>
-                                </div>
-                            </div>
-                            <p>Lampe décorative en cristal de sel naturel avec éclairage LED et contrôle de luminosité.</p>
-                            <div class="product-details">
-                                <div>Prix conseillé: €34.99</div>
-                                <div>Marge: 65%</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3 -->
-                    <div class="product-card" data-product="headphones">
-                        <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Casque sans fil" class="product-image">
-                        <div class="product-info">
-                            <div class="product-header">
-                                <div class="product-name">Casque Audio Sans Fil Réduction de Bruit Active</div>
-                                <div class="trending-badge">
-                                    <i class="fas fa-fire"></i> TRENDING
-                                </div>
-                            </div>
-                            <div class="product-score">
-                                <div class="score-value">91</div>
-                                <div class="score-bar">
-                                    <div class="score-fill" style="width: 91%;"></div>
-                                </div>
-                            </div>
-                            <p>Casque over-ear avec ANC, autonomie 30h, Bluetooth 5.2 et qualité audio HD.</p>
-                            <div class="product-details">
-                                <div>Prix conseillé: €129.99</div>
-                                <div>Marge: 38%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="dashboard-content" id="markets-tab">
-                <div class="chart-container">
-                    <h3 style="margin-bottom: 20px;">Potentiel de Marché par Pays</h3>
-                    <canvas id="marketChart" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Products Section -->
     <section class="section products-section" id="produits">
         <div class="container">
@@ -1246,7 +1136,7 @@
             </div>
             <div class="products-grid">
                 <!-- Product 1 -->
-                <div class="product-card active" data-product="smartwatch">
+                <div class="product-card active" data-product="montre connectée">
                     <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Montre connectée" class="product-image">
                     <div class="product-info">
                         <div class="product-header">
@@ -1270,31 +1160,31 @@
                 </div>
 
                 <!-- Product 2 -->
-                <div class="product-card" data-product="saltlamp">
-                    <img src="https://images.unsplash.com/photo-1584305574647-0cc949718d56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de sel" class="product-image">
+                <div class="product-card" data-product="tapis de yoga">
+                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Tapis de yoga" class="product-image">
                     <div class="product-info">
                         <div class="product-header">
-                            <div class="product-name">Lampe de Sel de l'Himalaya Naturelle</div>
+                            <div class="product-name">Tapis de Yoga Écologique Anti-Dérapant</div>
                             <div class="trending-badge">
                                 <i class="fas fa-fire"></i> TRENDING
                             </div>
                         </div>
                         <div class="product-score">
-                            <div class="score-value">88</div>
+                            <div class="score-value">86</div>
                             <div class="score-bar">
-                                <div class="score-fill" style="width: 88%;"></div>
+                                <div class="score-fill" style="width: 86%;"></div>
                             </div>
                         </div>
-                        <p>Lampe décorative en cristal de sel naturel avec éclairage LED et contrôle de luminosité.</p>
+                        <p>Tapis de yoga en caoutchouc naturel avec surface anti-dérapante, idéal pour le yoga et le fitness.</p>
                         <div class="product-details">
-                            <div>Prix conseillé: €34.99</div>
-                            <div>Marge: 65%</div>
+                            <div>Prix conseillé: €45.99</div>
+                            <div>Marge: 58%</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Product 3 -->
-                <div class="product-card" data-product="headphones">
+                <div class="product-card" data-product="casque audio">
                     <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Casque sans fil" class="product-image">
                     <div class="product-info">
                         <div class="product-header">
@@ -1318,79 +1208,7 @@
                 </div>
                 
                 <!-- Product 4 -->
-                <div class="product-card" data-product="yogamat">
-                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Tapis de yoga" class="product-image">
-                    <div class="product-info">
-                        <div class="product-header">
-                            <div class="product-name">Tapis de Yoga Écologique Anti-Dérapant</div>
-                            <div class="trending-badge">
-                                <i class="fas fa-fire"></i> TRENDING
-                            </div>
-                        </div>
-                        <div class="product-score">
-                            <div class="score-value">86</div>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: 86%;"></div>
-                            </div>
-                        </div>
-                        <p>Tapis de yoga en caoutchouc naturel avec surface anti-dérapante, idéal pour le yoga et le fitness.</p>
-                        <div class="product-details">
-                            <div>Prix conseillé: €45.99</div>
-                            <div>Marge: 58%</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 5 -->
-                <div class="product-card" data-product="airpurifier">
-                    <img src="https://images.unsplash.com/photo-1587334984005-56d2d636b0e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Purificateur d'air" class="product-image">
-                    <div class="product-info">
-                        <div class="product-header">
-                            <div class="product-name">Purificateur d'Air avec Filtre HEPA</div>
-                            <div class="trending-badge">
-                                <i class="fas fa-fire"></i> TRENDING
-                            </div>
-                        </div>
-                        <div class="product-score">
-                            <div class="score-value">79</div>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: 79%;"></div>
-                            </div>
-                        </div>
-                        <p>Purificateur d'air silencieux avec filtre HEPA et contrôle via application mobile.</p>
-                        <div class="product-details">
-                            <div>Prix conseillé: €129.99</div>
-                            <div>Marge: 41%</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 6 -->
-                <div class="product-card" data-product="deskorganizer">
-                    <img src="https://images.unsplash.com/photo-1587334984005-56d2d636b0e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Organisateur de bureau" class="product-image">
-                    <div class="product-info">
-                        <div class="product-header">
-                            <div class="product-name">Organisateur de Bureau en Bambou</div>
-                            <div class="trending-badge">
-                                <i class="fas fa-fire"></i> TRENDING
-                            </div>
-                        </div>
-                        <div class="product-score">
-                            <div class="score-value">82</div>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: 82%;"></div>
-                            </div>
-                        </div>
-                        <p>Set d'organisation de bureau en bambou naturel avec 5 compartiments.</p>
-                        <div class="product-details">
-                            <div>Prix conseillé: €29.99</div>
-                            <div>Marge: 72%</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 7 -->
-                <div class="product-card" data-product="plantpot">
+                <div class="product-card" data-product="pot de plante">
                     <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Pot de plante autonome" class="product-image">
                     <div class="product-info">
                         <div class="product-header">
@@ -1412,27 +1230,46 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Product 8 -->
-                <div class="product-card" data-product="massagegun">
-                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Pistolet de massage" class="product-image">
-                    <div class="product-info">
-                        <div class="product-header">
-                            <div class="product-name">Pistolet de Massage Percussif</div>
-                            <div class="trending-badge">
-                                <i class="fas fa-fire"></i> TRENDING
-                            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="section map-section" id="carte">
+        <div class="container">
+            <div class="section-header">
+                <h2>Pays à Fort Potentiel</h2>
+                <p>Notre analyse identifie les marchés les plus prometteurs pour vos produits</p>
+            </div>
+            <div class="map-container">
+                <div id="interactive-map"></div>
+                <div class="countries-list">
+                    <div class="country-item" data-country="us">
+                        <img src="https://flagcdn.com/w80/us.png" alt="USA" class="country-flag">
+                        <div class="country-info">
+                            <h4>États-Unis</h4>
+                            <p>Potentiel élevé pour produits tech</p>
                         </div>
-                        <div class="product-score">
-                            <div class="score-value">89</div>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: 89%;"></div>
-                            </div>
+                    </div>
+                    <div class="country-item" data-country="de">
+                        <img src="https://flagcdn.com/w80/de.png" alt="Allemagne" class="country-flag">
+                        <div class="country-info">
+                            <h4>Allemagne</h4>
+                            <p>Fort intérêt pour produits écologiques</p>
                         </div>
-                        <p>Pistolet de massage thérapeutique avec 5 têtes interchangeables et batterie longue durée.</p>
-                        <div class="product-details">
-                            <div>Prix conseillé: €119.99</div>
-                            <div>Marge: 52%</div>
+                    </div>
+                    <div class="country-item" data-country="ug">
+                        <img src="https://flagcdn.com/w80/ug.png" alt="Ouganda" class="country-flag">
+                        <div class="country-info">
+                            <h4>Ouganda</h4>
+                            <p>Marché émergent pour produits UGC</p>
+                        </div>
+                    </div>
+                    <div class="country-item" data-country="za">
+                        <img src="https://flagcdn.com/w80/za.png" alt="Afrique du Sud" class="country-flag">
+                        <div class="country-info">
+                            <h4>Afrique du Sud</h4>
+                            <p>Croissance e-commerce en hausse</p>
                         </div>
                     </div>
                 </div>
@@ -1440,15 +1277,171 @@
         </div>
     </section>
 
-    <!-- Rest of the code remains the same as before for Map, Testimonials, Pricing, CTA and Footer sections -->
-    <!-- ... -->
+    <!-- Pricing Section -->
+    <section class="section pricing-section" id="tarifs">
+        <div class="container">
+            <div class="section-header">
+                <h2>Trouvez la formule qui vous correspond</h2>
+                <p>Des solutions adaptées à tous les besoins et budgets</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-name">Découverte</div>
+                        <div class="pricing-price">49€</div>
+                        <div class="pricing-period">par mois</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Analyse de 500 produits/jour</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>5 marchés internationaux</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Rapports hebdomadaires</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Support par email</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%;">Commencer</button>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Le Plus Populaire</div>
+                    <div class="pricing-header">
+                        <div class="pricing-name">Business</div>
+                        <div class="pricing-price">99€</div>
+                        <div class="pricing-period">par mois</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Analyse de 2000 produits/jour</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>15 marchés internationaux</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Alertes en temps réel</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Analyses comparatives</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Support prioritaire</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;">Commencer</button>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <div class="pricing-name">Enterprise</div>
+                        <div class="pricing-price">199€</div>
+                        <div class="pricing-period">par mois</div>
+                    </div>
+                    <div class="pricing-features">
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Analyse illimitée de produits</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Tous les marchés internationaux</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>API complète</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Tableaux de bord personnalisés</span>
+                        </div>
+                        <div class="pricing-feature">
+                            <i class="fas fa-check"></i>
+                            <span>Manager de compte dédié</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%;">Nous Contacter</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Prêt à découvrir vos prochaines pépites ?</h2>
+                <p>Rejoignez des milliers de professionnels qui utilisent Trove.io pour maximiser leurs profits.</p>
+                <button class="btn btn-primary" style="background: white; color: var(--primary); padding: 15px 40px; font-size: 1.2rem;">Essai Gratuit 14 Jours</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Trove.io</h3>
+                    <ul>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">Presse</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Fonctionnalités</h3>
+                    <ul>
+                        <li><a href="#">Détection de produits</a></li>
+                        <li><a href="#">Analyse de marché</a></li>
+                        <li><a href="#">Prédictions de tendances</a></li>
+                        <li><a href="#">Outils marketing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Ressources</h3>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Webinaires</a></li>
+                        <li><a href="#">Documentation API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul>
+                        <li><a href="#">Conditions d'utilisation</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 Trove.io. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         // Product database for search functionality
         const productDatabase = {
             "montre connectée": {
-                name: "Montre Connectée Écologique",
+                name: "Montre Connectée Écologique avec Suivi d'Activité",
                 image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
                 score: 94,
                 marketPotential: "Élevé",
@@ -1456,26 +1449,8 @@
                 profitMargin: "42%",
                 trend: "En croissance"
             },
-            "lampe de sel": {
-                name: "Lampe de Sel de l'Himalaya",
-                image: "https://images.unsplash.com/photo-1584305574647-0cc949718d56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                score: 88,
-                marketPotential: "Élevé",
-                competition: "Faible",
-                profitMargin: "65%",
-                trend: "Stable"
-            },
-            "casque audio": {
-                name: "Casque Audio Sans Fil",
-                image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                score: 91,
-                marketPotential: "Très élevé",
-                competition: "Élevée",
-                profitMargin: "38%",
-                trend: "En croissance"
-            },
             "tapis de yoga": {
-                name: "Tapis de Yoga Écologique",
+                name: "Tapis de Yoga Écologique Anti-Dérapant",
                 image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
                 score: 86,
                 marketPotential: "Élevé",
@@ -1483,23 +1458,14 @@
                 profitMargin: "58%",
                 trend: "En croissance"
             },
-            "purificateur d'air": {
-                name: "Purificateur d'Air avec Filtre HEPA",
-                image: "https://images.unsplash.com/photo-1587334984005-56d2d636b0e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                score: 79,
-                marketPotential: "Moyen",
-                competition: "Moyenne",
-                profitMargin: "41%",
-                trend: "Stable"
-            },
-            "organisateur de bureau": {
-                name: "Organisateur de Bureau en Bambou",
-                image: "https://images.unsplash.com/photo-1587334984005-56d2d636b0e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                score: 82,
-                marketPotential: "Moyen",
-                competition: "Faible",
-                profitMargin: "72%",
-                trend: "Stable"
+            "casque audio": {
+                name: "Casque Audio Sans Fil Réduction de Bruit Active",
+                image: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
+                score: 91,
+                marketPotential: "Très élevé",
+                competition: "Élevée",
+                profitMargin: "38%",
+                trend: "En croissance"
             },
             "pot de plante": {
                 name: "Pot de Plante Autonome avec Irrigation",
@@ -1509,23 +1475,175 @@
                 competition: "Faible",
                 profitMargin: "68%",
                 trend: "Émergent"
-            },
-            "pistolet de massage": {
-                name: "Pistolet de Massage Percussif",
-                image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
-                score: 89,
-                marketPotential: "Élevé",
-                competition: "Moyenne",
-                profitMargin: "52%",
-                trend: "En croissance"
             }
         };
 
-        // Search functionality
+        // Product data with country potentials
+        const productData = {
+            "montre connectée": {
+                name: "Montre Connectée Écologique",
+                countries: {
+                    "us": { potential: 92, description: "Fort intérêt pour wearables tech" },
+                    "de": { potential: 85, description: "Marché mature pour produits connectés" },
+                    "ug": { potential: 45, description: "Potentiel modéré, marché émergent" },
+                    "za": { potential: 68, description: "Croissance rapide des wearables" },
+                    "fr": { potential: 78, description: "Intérêt pour produits écologiques" },
+                    "jp": { potential: 88, description: "Fort adoption des technologies" },
+                    "gb": { potential: 82, description: "Marché développé pour fitness tech" }
+                }
+            },
+            "tapis de yoga": {
+                name: "Tapis de Yoga Écologique",
+                countries: {
+                    "us": { potential: 84, description: "Fort intérêt pour fitness et bien-être" },
+                    "de": { potential: 79, description: "Marché développé pour produits sportifs" },
+                    "ug": { potential: 32, description: "Potentiel limité, marché spécifique" },
+                    "za": { potential: 61, description: "Croissance du marché fitness" },
+                    "fr": { potential: 81, description: "Intérêt pour produits écologiques" },
+                    "jp": { potential: 72, description: "Intérêt pour bien-être et méditation" },
+                    "gb": { potential: 83, description: "Fort intérêt pour yoga et fitness" }
+                }
+            },
+            "casque audio": {
+                name: "Casque Audio Sans Fil",
+                countries: {
+                    "us": { potential: 89, description: "Fort marché pour audio premium" },
+                    "de": { potential: 84, description: "Consommateurs qualité audio" },
+                    "ug": { potential: 42, description: "Potentiel modéré, prix sensible" },
+                    "za": { potential: 71, description: "Croissance marché audio" },
+                    "fr": { potential: 83, description: "Intérêt pour technologies audio" },
+                    "jp": { potential: 91, description: "Marché premium pour audio" },
+                    "gb": { potential: 87, description: "Fort adoption technologies sans fil" }
+                }
+            },
+            "pot de plante": {
+                name: "Pot de Plante Autonome",
+                countries: {
+                    "us": { potential: 76, description: "Intérêt pour objets connectés maison" },
+                    "de": { potential: 72, description: "Marché pour innovations domestiques" },
+                    "ug": { potential: 28, description: "Potentiel limité, marché de niche" },
+                    "za": { potential: 55, description: "Intérêt modéré pour smart home" },
+                    "fr": { potential: 74, description: "Intérêt pour jardinage connecté" },
+                    "jp": { potential: 68, description: "Marché pour innovations lifestyle" },
+                    "gb": { potential: 77, description: "Intérêt pour solutions smart home" }
+                }
+            }
+        };
+
+        // Initialize the map and functionality
         document.addEventListener('DOMContentLoaded', function() {
+            // Navigation functionality
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Initialize map
+            const map = L.map('interactive-map').setView([20, 10], 2);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Country data
+            const countries = [
+                {name: "États-Unis", coords: [39.8283, -98.5795], code: "us"},
+                {name: "Allemagne", coords: [51.1657, 10.4515], code: "de"},
+                {name: "Ouganda", coords: [1.3733, 32.2903], code: "ug"},
+                {name: "Afrique du Sud", coords: [-30.5595, 22.9375], code: "za"},
+                {name: "France", coords: [46.6034, 1.8883], code: "fr"},
+                {name: "Japon", coords: [36.2048, 138.2529], code: "jp"},
+                {name: "Royaume-Uni", coords: [55.3781, -3.4360], code: "gb"}
+            ];
+            
+            let markers = [];
+            
+            // Function to update map based on selected product
+            function updateMapForProduct(productId) {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
+                
+                const product = productData[productId];
+                
+                // Add markers for countries with this product's potential
+                countries.forEach(country => {
+                    const potential = product.countries[country.code] ? product.countries[country.code].potential : 0;
+                    const description = product.countries[country.code] ? product.countries[country.code].description : "Potentiel non disponible";
+                    
+                    // Determine color based on potential
+                    let color = '#dc2626'; // red for low
+                    if (potential >= 70) color = '#10b981'; // green for high
+                    else if (potential >= 50) color = '#f59e0b'; // amber for medium
+                    
+                    // Create custom icon
+                    const icon = L.divIcon({
+                        className: 'custom-marker',
+                        html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">${potential}</div>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15]
+                    });
+                    
+                    const marker = L.marker(country.coords, { icon: icon }).addTo(map);
+                    marker.bindPopup(`
+                        <div style="min-width: 200px;">
+                            <h3 style="margin: 0 0 10px;">${country.name}</h3>
+                            <p><strong>Produit:</strong> ${product.name}</p>
+                            <p><strong>Potentiel:</strong> ${potential}/100</p>
+                            <p>${description}</p>
+                        </div>
+                    `);
+                    
+                    markers.push(marker);
+                });
+            }
+            
+            // Initialize with first product
+            updateMapForProduct('montre connectée');
+            
+            // Add click event to country items
+            document.querySelectorAll('.country-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const countryCode = item.getAttribute('data-country');
+                    const country = countries.find(c => c.code === countryCode);
+                    if (country) {
+                        map.setView(country.coords, 5);
+                        // Open popup for the first marker in this country
+                        const marker = markers.find(m => {
+                            const latLng = m.getLatLng();
+                            return Math.abs(latLng.lat - country.coords[0]) < 1 && 
+                                   Math.abs(latLng.lng - country.coords[1]) < 1;
+                        });
+                        if (marker) marker.openPopup();
+                    }
+                });
+            });
+            
+            // Product selection
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove active class from all cards
+                    document.querySelectorAll('.product-card').forEach(c => c.classList.remove('active'));
+                    // Add active class to clicked card
+                    this.classList.add('active');
+                    
+                    // Update map for selected product
+                    const productId = this.getAttribute('data-product');
+                    updateMapForProduct(productId);
+                });
+            });
+
+            // Search functionality
             const searchInput = document.getElementById('product-search');
             const analyzeBtn = document.getElementById('analyze-btn');
             const searchResults = document.getElementById('search-results');
+            const searchSuggestions = document.getElementById('search-suggestions');
             const analysisImage = document.getElementById('analysis-image');
             const productTitle = document.getElementById('product-title');
             const scoreCircle = document.getElementById('score-circle');
@@ -1537,6 +1655,35 @@
             const profitMargin = document.getElementById('profit-margin');
             const trend = document.getElementById('trend');
 
+            // Show suggestions when typing
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm.length > 0) {
+                    searchSuggestions.classList.add('active');
+                } else {
+                    searchSuggestions.classList.remove('active');
+                }
+            });
+
+            // Hide suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+                    searchSuggestions.classList.remove('active');
+                }
+            });
+
+            // Select suggestion
+            document.querySelectorAll('.suggestion-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const productKey = this.getAttribute('data-product');
+                    searchInput.value = this.textContent;
+                    searchSuggestions.classList.remove('active');
+                    analyzeProduct(productKey);
+                });
+            });
+
+            // Analyze button
             analyzeBtn.addEventListener('click', function() {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 
@@ -1564,53 +1711,8 @@
                     }
                 }
 
-                // Show results
                 if (matchedProduct) {
-                    // Update UI with product data
-                    analysisImage.src = matchedProduct.image;
-                    productTitle.textContent = matchedProduct.name;
-                    
-                    // Animate score
-                    let currentScore = 0;
-                    const targetScore = matchedProduct.score;
-                    const increment = targetScore / 50;
-                    
-                    const scoreTimer = setInterval(() => {
-                        currentScore += increment;
-                        if (currentScore >= targetScore) {
-                            currentScore = targetScore;
-                            clearInterval(scoreTimer);
-                            
-                            // Set final score and label
-                            scoreValue.textContent = targetScore;
-                            scoreCircle.style.setProperty('--score-percent', `${targetScore}%`);
-                            
-                            if (targetScore >= 85) {
-                                scoreLabel.textContent = "WINNER!";
-                                scoreLabel.className = "score-label winner";
-                                scoreDescription.textContent = "Ce produit a un excellent potentiel de vente!";
-                            } else if (targetScore >= 70) {
-                                scoreLabel.textContent = "Bon potentiel";
-                                scoreLabel.className = "score-label potential";
-                                scoreDescription.textContent = "Ce produit a un bon potentiel avec quelques ajustements.";
-                            } else {
-                                scoreLabel.textContent = "Déconseillé";
-                                scoreLabel.className = "score-label not-recommended";
-                                scoreDescription.textContent = "Ce produit présente des risques, envisagez d'autres options.";
-                            }
-                            
-                            // Update metrics
-                            marketPotential.textContent = matchedProduct.marketPotential;
-                            competition.textContent = matchedProduct.competition;
-                            profitMargin.textContent = matchedProduct.profitMargin;
-                            trend.textContent = matchedProduct.trend;
-                        } else {
-                            scoreValue.textContent = Math.floor(currentScore);
-                            scoreCircle.style.setProperty('--score-percent', `${currentScore}%`);
-                        }
-                    }, 30);
-                    
-                    searchResults.classList.add('active');
+                    analyzeProduct(Object.keys(productDatabase).find(key => productDatabase[key] === matchedProduct));
                 } else {
                     // Product not found
                     analysisImage.src = "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80";
@@ -1629,15 +1731,66 @@
                 }
             });
 
+            // Function to analyze and display product
+            function analyzeProduct(productKey) {
+                const product = productDatabase[productKey];
+                
+                // Update UI with product data
+                analysisImage.src = product.image;
+                productTitle.textContent = product.name;
+                
+                // Animate score
+                let currentScore = 0;
+                const targetScore = product.score;
+                const increment = targetScore / 50;
+                
+                const scoreTimer = setInterval(() => {
+                    currentScore += increment;
+                    if (currentScore >= targetScore) {
+                        currentScore = targetScore;
+                        clearInterval(scoreTimer);
+                        
+                        // Set final score and label
+                        scoreValue.textContent = targetScore;
+                        scoreCircle.style.setProperty('--score-percent', `${targetScore}%`);
+                        
+                        if (targetScore >= 85) {
+                            scoreLabel.textContent = "WINNER!";
+                            scoreLabel.className = "score-label winner";
+                            scoreDescription.textContent = "Ce produit a un excellent potentiel de vente!";
+                        } else if (targetScore >= 70) {
+                            scoreLabel.textContent = "Bon potentiel";
+                            scoreLabel.className = "score-label potential";
+                            scoreDescription.textContent = "Ce produit a un bon potentiel avec quelques ajustements.";
+                        } else {
+                            scoreLabel.textContent = "Déconseillé";
+                            scoreLabel.className = "score-label not-recommended";
+                            scoreDescription.textContent = "Ce produit présente des risques, envisagez d'autres options.";
+                        }
+                        
+                        // Update metrics
+                        marketPotential.textContent = product.marketPotential;
+                        competition.textContent = product.competition;
+                        profitMargin.textContent = product.profitMargin;
+                        trend.textContent = product.trend;
+                    } else {
+                        scoreValue.textContent = Math.floor(currentScore);
+                        scoreCircle.style.setProperty('--score-percent', `${currentScore}%`);
+                    }
+                }, 30);
+                
+                searchResults.classList.add('active');
+                
+                // Update map for this product
+                updateMapForProduct(productKey);
+            }
+
             // Allow pressing Enter to search
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     analyzeBtn.click();
                 }
             });
-
-            // Rest of the existing functionality (map, charts, etc.)
-            // ... (le code précédent pour la carte, les graphiques, etc.)
         });
     </script>
 </body>
