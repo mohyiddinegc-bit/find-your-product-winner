@@ -1,7 +1,10 @@
+# Créez un nouveau fichier CORRECT
+cat > ~/Desktop/product_winner.html << 'ENDFILE'
 <!DOCTYPE html>
 <html>
 <head>
     <title>Product Winner AI</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
             background: #0f172a;
@@ -58,6 +61,8 @@
             font-size: 0.8rem;
             font-weight: bold;
             margin-bottom: 10px;
+        }
+        .badge-success {
             background: #10b981;
             color: white;
         }
@@ -101,7 +106,7 @@
         <h2>🏆 Top Products</h2>
         <div class="products">
             <div class="product-card">
-                <span class="badge">WINNER</span>
+                <span class="badge badge-success">WINNER</span>
                 <h3>Kit Jardinage LED</h3>
                 <p>Score: 87/100</p>
                 <p>Marge: 48.5€</p>
@@ -110,7 +115,7 @@
             </div>
             
             <div class="product-card">
-                <span class="badge">WINNER</span>
+                <span class="badge badge-success">WINNER</span>
                 <h3>Oreiller Cervical</h3>
                 <p>Score: 81/100</p>
                 <p>Marge: 33.8€</p>
@@ -119,7 +124,7 @@
             </div>
             
             <div class="product-card">
-                <span class="badge">WINNER</span>
+                <span class="badge badge-success">WINNER</span>
                 <h3>Lampe Solaire</h3>
                 <p>Score: 72/100</p>
                 <p>Marge: 37.7€</p>
@@ -129,10 +134,15 @@
         </div>
 
         <div style="text-align: center; margin-top: 40px;">
-            <button onclick="alert('🎉 FÉLICITATIONS ! L\\'application fonctionne parfaitement !')" style="padding: 15px 30px; font-size: 1.2rem;">
+            <button onclick="alert('🎉 APPLICATION FONCTIONNELLE !')" style="padding: 15px 30px; font-size: 1.2rem;">
                 🎯 TESTER L'APPLICATION
             </button>
         </div>
     </div>
+
+    <script>
+        console.log("✅ Product Winner AI chargée avec succès !");
+    </script>
 </body>
 </html>
+ENDFILE
