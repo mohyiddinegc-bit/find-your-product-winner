@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProductWinner.ai - Détectez les Produits Gagnants avec l'IA Géographique</title>
+    <title>ProductWinner.io - Détectez les Produits Gagnants avec l'IA Géographique</title>
     <meta name="description" content="L'outil d'analyse IA le plus avancé pour dropshippers. Analysez en 30s le potentiel de profit, les meilleurs pays et fournisseurs pour chaque produit.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -61,6 +61,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .logo i {
@@ -404,6 +411,80 @@
             background: linear-gradient(135deg, #d1f7ed, #ecfdf5);
             border-radius: 12px;
             border-left: 4px solid var(--secondary);
+        }
+
+        /* Section produits tendances */
+        .trending-products {
+            padding: 60px 15px;
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .trending-product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid #E2E8F0;
+        }
+
+        .trending-product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .trend-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .trend-up {
+            color: #10B981;
+        }
+
+        .trend-down {
+            color: #EF4444;
         }
 
         /* Section comparaison concurrents adaptée mobile */
@@ -920,6 +1001,10 @@
             .author-results {
                 flex-direction: row;
             }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
         }
 
         @media (min-width: 1024px) {
@@ -958,6 +1043,10 @@
             .platform-btn i {
                 font-size: 1.2rem;
             }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -967,11 +1056,12 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-rocket"></i>
-                ProductWinner.ai
+                ProductWinner.io
             </div>
             
             <div class="nav-links">
                 <a href="#demo">Démo Live</a>
+                <a href="#trending">Produits Tendances</a>
                 <a href="#comparison">Vs Concurrents</a>
                 <a href="#pricing">Tarifs</a>
                 <a href="#testimonials">Témoignages</a>
@@ -991,6 +1081,7 @@
     <!-- Menu mobile -->
     <div class="mobile-menu" id="mobileMenu">
         <a href="#demo">Démo Live</a>
+        <a href="#trending">Produits Tendances</a>
         <a href="#comparison">Vs Concurrents</a>
         <a href="#pricing">Tarifs</a>
         <a href="#testimonials">Témoignages</a>
@@ -1053,6 +1144,84 @@
         </div>
     </section>
 
+    <!-- Section Produits Tendances -->
+    <section class="trending-products" id="trending">
+        <h2 class="section-title">🔥 Produits en Tendance Cette Semaine</h2>
+        <div class="products-grid">
+            <!-- Produit 1 -->
+            <div class="trending-product-card">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Montre connectée" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">Montre Intelligente Écran 1.9"</h3>
+                    <div class="product-price">18.50€</div>
+                    <div class="product-meta">
+                        <span>Marge: 46.40€</span>
+                        <span class="trend-indicator trend-up">
+                            <i class="fas fa-chart-line"></i> +320%
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="analyzeProduct('Montre Intelligente Écran 1.9\"')">
+                        <i class="fas fa-chart-line"></i> Analyser
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produit 2 -->
+            <div class="trending-product-card">
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de bureau LED" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">Lampe de Bureau LED Réglable</h3>
+                    <div class="product-price">12.80€</div>
+                    <div class="product-meta">
+                        <span>Marge: 32.00€</span>
+                        <span class="trend-indicator trend-up">
+                            <i class="fas fa-chart-line"></i> +180%
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="analyzeProduct('Lampe de Bureau LED Réglable')">
+                        <i class="fas fa-chart-line"></i> Analyser
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produit 3 -->
+            <div class="trending-product-card">
+                <img src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Chaussures de sport" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">Chaussures de Sport LED</h3>
+                    <div class="product-price">24.90€</div>
+                    <div class="product-meta">
+                        <span>Marge: 55.00€</span>
+                        <span class="trend-indicator trend-up">
+                            <i class="fas fa-chart-line"></i> +410%
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="analyzeProduct('Chaussures de Sport LED')">
+                        <i class="fas fa-chart-line"></i> Analyser
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produit 4 -->
+            <div class="trending-product-card">
+                <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lunettes de soleil" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-name">Lunettes de Soleil Polariseur</h3>
+                    <div class="product-price">8.50€</div>
+                    <div class="product-meta">
+                        <span>Marge: 21.50€</span>
+                        <span class="trend-indicator trend-up">
+                            <i class="fas fa-chart-line"></i> +290%
+                        </span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="analyzeProduct('Lunettes de Soleil Polariseur')">
+                        <i class="fas fa-chart-line"></i> Analyser
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Comparaison Concurrents -->
     <section class="competitor-comparison" id="comparison">
         <h2 class="section-title">📊 Pourquoi Nous Sommes Différents</h2>
@@ -1063,7 +1232,7 @@
                         <th>Fonctionnalité</th>
                         <th>Minea</th>
                         <th>Dropship.io</th>
-                        <th>ProductWinner.ai</th>
+                        <th>ProductWinner.io</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1158,10 +1327,10 @@
             <!-- Témoignage 1 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
-                    "ProductWinner.ai a révolutionné ma façon de trouver des produits. En 2 semaines, j'ai lancé un produit qui génère maintenant 12 000€/mois."
+                    "ProductWinner.io a révolutionné ma façon de trouver des produits. En 2 semaines, j'ai lancé un produit qui génère maintenant 12 000€/mois. Leur analyse géographique m'a permis de cibler la Belgique où la concurrence était faible et la demande forte."
                 </div>
                 <div class="testimonial-author">
-                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Marie Lambert" class="author-avatar">
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Marie Lambert" class="author-avatar">
                     <div class="author-info">
                         <strong>Marie Lambert</strong>
                         <span class="author-title">E-commerçante • Maroc</span>
@@ -1180,10 +1349,10 @@
             <!-- Témoignage 2 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
-                    "J'utilisais Minea avant, mais ProductWinner est bien plus précis sur les marges réelles. Mon ROI a été incroyable - retour sur investissement en 48h !"
+                    "J'utilisais Minea avant, mais ProductWinner est bien plus précis sur les marges réelles. Leur algorithme détecte les tendances 2-3 jours avant les autres outils. Mon ROI a été incroyable - retour sur investissement en 48h !"
                 </div>
                 <div class="testimonial-author">
-                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Thomas Dubois" class="author-avatar">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Thomas Dubois" class="author-avatar">
                     <div class="author-info">
                         <strong>Thomas Dubois</strong>
                         <span class="author-title">Expert E-commerce • France</span>
@@ -1205,7 +1374,7 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-about">
-                <div class="footer-logo">ProductWinner.ai</div>
+                <div class="footer-logo">ProductWinner.io</div>
                 <p class="footer-description">
                     L'outil d'analyse IA le plus avancé pour les e-commerçants. Détectez les produits gagnants, analysez les marchés et maximisez vos profits.
                 </p>
@@ -1237,7 +1406,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2024 ProductWinner.ai. Tous droits réservés.</p>
+            <p>&copy; 2024 ProductWinner.io. Tous droits réservés.</p>
         </div>
     </footer>
 
@@ -1308,6 +1477,12 @@
                 document.getElementById('mobileMenu').classList.remove('active');
             });
         });
+
+        // Fonction pour analyser un produit depuis la section tendances
+        function analyzeProduct(productName) {
+            document.querySelector('.url-input').value = `https://example.com/product/${productName.toLowerCase().replace(/ /g, '-')}`;
+            runLiveAnalysis();
+        }
 
         // Fonction pour afficher un exemple
         function showExample(type) {
