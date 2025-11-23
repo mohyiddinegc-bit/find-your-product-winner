@@ -6,6 +6,7 @@
     <title>AnalyticsPro - Détection Intelligente de Produits Gagnants</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #2563eb;
@@ -58,14 +59,53 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             font-size: 24px;
             font-weight: 700;
             color: var(--primary);
+            text-decoration: none;
         }
 
-        .logo i {
-            font-size: 28px;
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            position: relative;
+        }
+
+        .logo-icon .radar {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .logo-icon .sweep {
+            width: 25px;
+            height: 3px;
+            background: var(--secondary);
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            transform-origin: left center;
+            animation: sweep 3s infinite linear;
+        }
+
+        @keyframes sweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-icon .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+            left: 33px;
         }
 
         .nav-links {
@@ -78,6 +118,7 @@
             color: var(--dark);
             font-weight: 500;
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .nav-links a:hover {
@@ -238,11 +279,16 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card.active {
+            border: 2px solid var(--primary);
         }
 
         .product-image {
@@ -315,65 +361,6 @@
             display: flex;
             justify-content: space-between;
             margin-top: 15px;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        /* Map Section */
-        .map-section {
-            background: white;
-        }
-
-        .map-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #interactive-map {
-            width: 100%;
-            height: 500px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
-            z-index: 1;
-        }
-
-        .countries-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .country-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .country-item:hover {
-            background: #e2e8f0;
-        }
-
-        .country-flag {
-            width: 40px;
-            height: 30px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .country-info h4 {
-            margin-bottom: 5px;
-        }
-
-        .country-info p {
             font-size: 0.9rem;
             color: var(--gray);
         }
@@ -456,6 +443,65 @@
             justify-content: center;
             color: var(--gray);
             font-weight: 600;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: white;
+        }
+
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #interactive-map {
+            width: 100%;
+            height: 500px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            z-index: 1;
+        }
+
+        .countries-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .country-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .country-item:hover {
+            background: #e2e8f0;
+        }
+
+        .country-flag {
+            width: 40px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .country-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .country-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
         /* Testimonials */
@@ -675,16 +721,20 @@
     <header>
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
-                    <i class="fas fa-chart-line"></i>
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <div class="radar"></div>
+                        <div class="sweep"></div>
+                        <div class="dot"></div>
+                    </div>
                     <span>AnalyticsPro</span>
-                </div>
+                </a>
                 <div class="nav-links">
-                    <a href="#">Accueil</a>
-                    <a href="#">Fonctionnalités</a>
-                    <a href="#">Tarifs</a>
-                    <a href="#">Blog</a>
-                    <a href="#">Contact</a>
+                    <a href="#accueil">Accueil</a>
+                    <a href="#fonctionnalites">Fonctionnalités</a>
+                    <a href="#tarifs">Tarifs</a>
+                    <a href="#temoignages">Témoignages</a>
+                    <a href="#contact">Contact</a>
                 </div>
                 <div class="auth-buttons">
                     <button class="btn btn-outline">Connexion</button>
@@ -695,7 +745,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="accueil">
         <div class="container">
             <h1>Détectez les Produits Gagnants avec l'IA</h1>
             <p>Notre plateforme analyse en temps réel les marchés pour identifier les opportunités de profit avec une précision inégalée.</p>
@@ -704,7 +754,7 @@
     </section>
 
     <!-- Process Section -->
-    <section class="section">
+    <section class="section" id="fonctionnalites">
         <div class="container">
             <div class="section-header">
                 <h2>Comment Nous Détectons les Winners</h2>
@@ -783,16 +833,14 @@
                 
                 <div class="chart-container">
                     <h3 style="margin-bottom: 20px;">Tendances des Catégories de Produits</h3>
-                    <div class="chart-placeholder">
-                        Graphique interactif des tendances par catégorie
-                    </div>
+                    <canvas id="trendsChart" height="300"></canvas>
                 </div>
             </div>
             
             <div class="dashboard-content" id="products-tab">
                 <div class="products-grid">
                     <!-- Product 1 -->
-                    <div class="product-card">
+                    <div class="product-card active" data-product="smartwatch">
                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Montre connectée" class="product-image">
                         <div class="product-info">
                             <div class="product-header">
@@ -816,8 +864,8 @@
                     </div>
 
                     <!-- Product 2 -->
-                    <div class="product-card">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25856cd63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de sel" class="product-image">
+                    <div class="product-card" data-product="saltlamp">
+                        <img src="https://images.unsplash.com/photo-1584305574647-0cc949718d56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Lampe de sel" class="product-image">
                         <div class="product-info">
                             <div class="product-header">
                                 <div class="product-name">Lampe de Sel de l'Himalaya Naturelle</div>
@@ -840,7 +888,7 @@
                     </div>
 
                     <!-- Product 3 -->
-                    <div class="product-card">
+                    <div class="product-card" data-product="headphones">
                         <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Casque sans fil" class="product-image">
                         <div class="product-info">
                             <div class="product-header">
@@ -868,9 +916,7 @@
             <div class="dashboard-content" id="markets-tab">
                 <div class="chart-container">
                     <h3 style="margin-bottom: 20px;">Potentiel de Marché par Pays</h3>
-                    <div class="chart-placeholder">
-                        Graphique interactif du potentiel de marché par pays
-                    </div>
+                    <canvas id="marketChart" height="300"></canvas>
                 </div>
             </div>
         </div>
@@ -900,18 +946,18 @@
                             <p>Fort intérêt pour produits écologiques</p>
                         </div>
                     </div>
-                    <div class="country-item" data-country="au">
-                        <img src="https://flagcdn.com/w80/au.png" alt="Australie" class="country-flag">
+                    <div class="country-item" data-country="ug">
+                        <img src="https://flagcdn.com/w80/ug.png" alt="Ouganda" class="country-flag">
                         <div class="country-info">
-                            <h4>Australie</h4>
-                            <p>Croissance e-commerce en hausse</p>
+                            <h4>Ouganda</h4>
+                            <p>Marché émergent pour produits UGC</p>
                         </div>
                     </div>
-                    <div class="country-item" data-country="ca">
-                        <img src="https://flagcdn.com/w80/ca.png" alt="Canada" class="country-flag">
+                    <div class="country-item" data-country="za">
+                        <img src="https://flagcdn.com/w80/za.png" alt="Afrique du Sud" class="country-flag">
                         <div class="country-info">
-                            <h4>Canada</h4>
-                            <p>Marché mature pour produits lifestyle</p>
+                            <h4>Afrique du Sud</h4>
+                            <p>Croissance e-commerce en hausse</p>
                         </div>
                     </div>
                 </div>
@@ -920,7 +966,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="section testimonials-section">
+    <section class="section testimonials-section" id="temoignages">
         <div class="container">
             <div class="section-header">
                 <h2>Témoignages de Nos Clients</h2>
@@ -968,7 +1014,7 @@
     </section>
 
     <!-- Pricing Section -->
-    <section class="section pricing-section">
+    <section class="section pricing-section" id="tarifs">
         <div class="container">
             <div class="section-header">
                 <h2>Choisissez Votre Formule</h2>
@@ -1069,7 +1115,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta">
+    <section class="cta" id="contact">
         <div class="container">
             <h2>Prêt à Découvrir Votre Prochain Produit Gagnant?</h2>
             <p>Rejoignez des milliers de professionnels qui utilisent notre plateforme pour maximiser leurs profits.</p>
@@ -1126,38 +1172,141 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Initialize the map
+        // Product data with country potentials
+        const productData = {
+            smartwatch: {
+                name: "Montre Connectée Écologique",
+                countries: {
+                    "us": { potential: 92, description: "Fort intérêt pour wearables tech" },
+                    "de": { potential: 85, description: "Marché mature pour produits connectés" },
+                    "ug": { potential: 45, description: "Potentiel modéré, marché émergent" },
+                    "za": { potential: 68, description: "Croissance rapide des wearables" },
+                    "fr": { potential: 78, description: "Intérêt pour produits écologiques" },
+                    "jp": { potential: 88, description: "Fort adoption des technologies" },
+                    "gb": { potential: 82, description: "Marché développé pour fitness tech" }
+                }
+            },
+            saltlamp: {
+                name: "Lampe de Sel de l'Himalaya",
+                countries: {
+                    "us": { potential: 76, description: "Intérêt pour bien-être et décoration" },
+                    "de": { potential: 82, description: "Fort intérêt pour produits naturels" },
+                    "ug": { potential: 35, description: "Potentiel limité, marché spécifique" },
+                    "za": { potential: 58, description: "Intérêt modéré pour décoration" },
+                    "fr": { potential: 79, description: "Marché pour produits bien-être" },
+                    "jp": { potential: 65, description: "Intérêt pour décoration zen" },
+                    "gb": { potential: 81, description: "Fort intérêt pour bien-être" }
+                }
+            },
+            headphones: {
+                name: "Casque Audio Sans Fil",
+                countries: {
+                    "us": { potential: 89, description: "Fort marché pour audio premium" },
+                    "de": { potential: 84, description: "Consommateurs qualité audio" },
+                    "ug": { potential: 42, description: "Potentiel modéré, prix sensible" },
+                    "za": { potential: 71, description: "Croissance marché audio" },
+                    "fr": { potential: 83, description: "Intérêt pour technologies audio" },
+                    "jp": { potential: 91, description: "Marché premium pour audio" },
+                    "gb": { potential: 87, description: "Fort adoption technologies sans fil" }
+                }
+            }
+        };
+
+        // Initialize the map and charts
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize map
-            const map = L.map('interactive-map').setView([30, 0], 2);
+            const map = L.map('interactive-map').setView([20, 10], 2);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
             
-            // Add markers for highlighted countries
+            // Country data
             const countries = [
                 {name: "États-Unis", coords: [39.8283, -98.5795], code: "us"},
                 {name: "Allemagne", coords: [51.1657, 10.4515], code: "de"},
-                {name: "Australie", coords: [-25.2744, 133.7751], code: "au"},
-                {name: "Canada", coords: [56.1304, -106.3468], code: "ca"},
+                {name: "Ouganda", coords: [1.3733, 32.2903], code: "ug"},
+                {name: "Afrique du Sud", coords: [-30.5595, 22.9375], code: "za"},
                 {name: "France", coords: [46.6034, 1.8883], code: "fr"},
                 {name: "Japon", coords: [36.2048, 138.2529], code: "jp"},
                 {name: "Royaume-Uni", coords: [55.3781, -3.4360], code: "gb"}
             ];
             
-            countries.forEach(country => {
-                const marker = L.marker(country.coords).addTo(map);
-                marker.bindPopup(`<b>${country.name}</b><br>Marché à fort potentiel`);
+            let markers = [];
+            
+            // Function to update map based on selected product
+            function updateMapForProduct(productId) {
+                // Clear existing markers
+                markers.forEach(marker => map.removeLayer(marker));
+                markers = [];
                 
-                // Add click event to country items
-                const countryItem = document.querySelector(`.country-item[data-country="${country.code}"]`);
-                if (countryItem) {
-                    countryItem.addEventListener('click', () => {
-                        map.setView(country.coords, 5);
-                        marker.openPopup();
+                const product = productData[productId];
+                
+                // Add markers for countries with this product's potential
+                countries.forEach(country => {
+                    const potential = product.countries[country.code] ? product.countries[country.code].potential : 0;
+                    const description = product.countries[country.code] ? product.countries[country.code].description : "Potentiel non disponible";
+                    
+                    // Determine color based on potential
+                    let color = '#dc2626'; // red for low
+                    if (potential >= 70) color = '#10b981'; // green for high
+                    else if (potential >= 50) color = '#f59e0b'; // amber for medium
+                    
+                    // Create custom icon
+                    const icon = L.divIcon({
+                        className: 'custom-marker',
+                        html: `<div style="background-color: ${color}; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">${potential}</div>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15]
                     });
-                }
+                    
+                    const marker = L.marker(country.coords, { icon: icon }).addTo(map);
+                    marker.bindPopup(`
+                        <div style="min-width: 200px;">
+                            <h3 style="margin: 0 0 10px;">${country.name}</h3>
+                            <p><strong>Produit:</strong> ${product.name}</p>
+                            <p><strong>Potentiel:</strong> ${potential}/100</p>
+                            <p>${description}</p>
+                        </div>
+                    `);
+                    
+                    markers.push(marker);
+                });
+            }
+            
+            // Initialize with first product
+            updateMapForProduct('smartwatch');
+            
+            // Add click event to country items
+            document.querySelectorAll('.country-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const countryCode = item.getAttribute('data-country');
+                    const country = countries.find(c => c.code === countryCode);
+                    if (country) {
+                        map.setView(country.coords, 5);
+                        // Open popup for the first marker in this country
+                        const marker = markers.find(m => {
+                            const latLng = m.getLatLng();
+                            return Math.abs(latLng.lat - country.coords[0]) < 1 && 
+                                   Math.abs(latLng.lng - country.coords[1]) < 1;
+                        });
+                        if (marker) marker.openPopup();
+                    }
+                });
+            });
+            
+            // Product selection
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove active class from all cards
+                    document.querySelectorAll('.product-card').forEach(c => c.classList.remove('active'));
+                    // Add active class to clicked card
+                    this.classList.add('active');
+                    
+                    // Update map for selected product
+                    const productId = this.getAttribute('data-product');
+                    updateMapForProduct(productId);
+                });
             });
             
             // Dashboard functionality
@@ -1184,6 +1333,9 @@
                             metric.textContent = Math.floor(current);
                         }, 30);
                     });
+                    
+                    // Initialize charts
+                    initCharts();
                 }, 500);
             });
             
@@ -1201,8 +1353,141 @@
                     tab.classList.add('active');
                     const tabId = tab.getAttribute('data-tab');
                     document.getElementById(`${tabId}-tab`).classList.add('active');
+                    
+                    // Reinitialize charts if needed
+                    if (tabId === 'overview' || tabId === 'markets') {
+                        setTimeout(initCharts, 100);
+                    }
                 });
             });
+            
+            // Navigation
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Initialize charts
+            function initCharts() {
+                // Trends Chart
+                const trendsCtx = document.getElementById('trendsChart').getContext('2d');
+                if (window.trendsChart) window.trendsChart.destroy();
+                
+                window.trendsChart = new Chart(trendsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                        datasets: [
+                            {
+                                label: 'Électronique',
+                                data: [65, 59, 80, 81, 56, 72, 45, 67, 55, 60, 75, 82],
+                                borderColor: '#2563eb',
+                                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'Maison & Déco',
+                                data: [28, 48, 40, 45, 36, 52, 35, 40, 46, 55, 60, 70],
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            },
+                            {
+                                label: 'Mode & Accessoires',
+                                data: [45, 35, 60, 50, 65, 58, 52, 60, 65, 70, 62, 75],
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                tension: 0.3,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Score de tendance'
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Market Chart
+                const marketCtx = document.getElementById('marketChart').getContext('2d');
+                if (window.marketChart) window.marketChart.destroy();
+                
+                window.marketChart = new Chart(marketCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['USA', 'Allemagne', 'France', 'UK', 'Japon', 'Australie', 'Canada', 'Afrique du Sud'],
+                        datasets: [{
+                            label: 'Potentiel de marché',
+                            data: [92, 85, 78, 82, 88, 76, 80, 68],
+                            backgroundColor: [
+                                'rgba(37, 99, 235, 0.7)',
+                                'rgba(16, 185, 129, 0.7)',
+                                'rgba(245, 158, 11, 0.7)',
+                                'rgba(139, 92, 246, 0.7)',
+                                'rgba(236, 72, 153, 0.7)',
+                                'rgba(14, 165, 233, 0.7)',
+                                'rgba(20, 184, 166, 0.7)',
+                                'rgba(249, 115, 22, 0.7)'
+                            ],
+                            borderColor: [
+                                '#2563eb',
+                                '#10b981',
+                                '#f59e0b',
+                                '#8b5cf6',
+                                '#ec4899',
+                                '#0ea5e9',
+                                '#14b8a6',
+                                '#f97316'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Score de potentiel'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
             
             // Animation for product cards on scroll
             const productCards = document.querySelectorAll('.product-card');
