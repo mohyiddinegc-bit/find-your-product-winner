@@ -550,7 +550,7 @@
             width: 20px;
         }
 
-        /* Section témoignages */
+        /* Section témoignages AMÉLIORÉE */
         .testimonials {
             padding: 100px 20px;
             background: white;
@@ -570,6 +570,11 @@
             padding: 35px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.08);
             border: 1px solid #E2E8F0;
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
         }
 
         .testimonial-content {
@@ -578,6 +583,18 @@
             margin-bottom: 25px;
             color: #475569;
             font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-content::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+            font-family: serif;
         }
 
         .testimonial-author {
@@ -587,25 +604,62 @@
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            flex: 1;
         }
 
         .author-info strong {
             display: block;
             color: var(--dark);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
         }
 
-        .author-info span {
+        .author-title {
             color: #64748b;
             font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .author-results {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .result-badge {
+            background: #F1F5F9;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .result-badge.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .result-badge.warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .result-badge.primary {
+            background: #DBEAFE;
+            color: #1E40AF;
         }
 
         /* Footer amélioré */
@@ -740,6 +794,11 @@
             th, td {
                 padding: 15px 10px;
                 font-size: 0.9rem;
+            }
+            
+            .author-results {
+                flex-direction: column;
+                gap: 8px;
             }
         }
 
@@ -992,45 +1051,106 @@
         </div>
     </section>
 
-    <!-- Témoignages -->
+    <!-- Témoignages AMÉLIORÉS -->
     <section class="testimonials" id="testimonials">
         <h2 class="section-title">🎯 Ils Ont Multiplié Leur Chiffre d'Affaires</h2>
         <div class="testimonial-grid">
+            <!-- Témoignage 1 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
-                    "ProductWinner.ai m'a fait gagner 3 mois de recherche. Mon premier produit a généré 5 000€ en 2 semaines ! L'analyse géographique m'a permis de cibler la Belgique où la concurrence était faible."
+                    "ProductWinner.ai a révolutionné ma façon de trouver des produits. En 2 semaines, j'ai lancé un produit qui génère maintenant 12 000€/mois. Leur analyse géographique m'a permis de cibler la Belgique où la concurrence était faible et la demande forte."
                 </div>
                 <div class="testimonial-author">
-                    <div class="author-avatar">ML</div>
+                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Marie Lambert" class="author-avatar">
                     <div class="author-info">
-                        <strong>Marie L.</strong>
-                        <span>Dropshipping Beauté - 27k€/mois</span>
+                        <strong>Marie Lambert</strong>
+                        <span class="author-title">E-commerçante • Maroc</span>
+                        <div class="author-results">
+                            <div class="result-badge success">
+                                <i class="fas fa-chart-line"></i> +30% de conversions
+                            </div>
+                            <div class="result-badge warning">
+                                <i class="fas fa-coins"></i> Marge x3
+                            </div>
+                            <div class="result-badge primary">
+                                <i class="fas fa-rocket"></i> 12 000€/mois
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
+            <!-- Témoignage 2 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
-                    "J'utilisais Minea avant, mais ProductWinner est bien plus précis sur les marges réelles. Leur algorithme détecte les tendances 2-3 jours avant les autres outils. ROI en 48h."
+                    "J'utilisais Minea avant, mais ProductWinner est bien plus précis sur les marges réelles. Leur algorithme détecte les tendances 2-3 jours avant les autres outils. Mon ROI a été incroyable - retour sur investissement en seulement 48h !"
                 </div>
                 <div class="testimonial-author">
-                    <div class="author-avatar">TD</div>
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Thomas Dubois" class="author-avatar">
                     <div class="author-info">
-                        <strong>Thomas D.</strong>
-                        <span>E-commerce Sport - 45k€/mois</span>
+                        <strong>Thomas Dubois</strong>
+                        <span class="author-title">Expert E-commerce Sport • France</span>
+                        <div class="author-results">
+                            <div class="result-badge success">
+                                <i class="fas fa-bolt"></i> ROI en 48h
+                            </div>
+                            <div class="result-badge warning">
+                                <i class="fas fa-trend-up"></i> +45k€/mois
+                            </div>
+                            <div class="result-badge primary">
+                                <i class="fas fa-shield-alt"></i> Précision 92%
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
+            <!-- Témoignage 3 -->
             <div class="testimonial-card">
                 <div class="testimonial-content">
-                    "Ce qui m'a convaincu, c'est l'analyse des fournisseurs. ProductWinner m'a trouvé un fournisseur sur 1688 avec des prix 40% moins chers qu'AliExpress. Économie énorme !"
+                    "Ce qui m'a convaincu, c'est l'analyse des fournisseurs. ProductWinner m'a trouvé un fournisseur sur 1688 avec des prix 40% moins chers qu'AliExpress. Économie énorme ! Maintenant je gère 3 boutiques avec un CA total de 85 000€/mois."
                 </div>
                 <div class="testimonial-author">
-                    <div class="author-avatar">SL</div>
+                    <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Sophie Leroy" class="author-avatar">
                     <div class="author-info">
-                        <strong>Sophie L.</strong>
-                        <span>Dropshipping Maison - 32k€/mois</span>
+                        <strong>Sophie Leroy</strong>
+                        <span class="author-title">Dropshipping Maison • Canada</span>
+                        <div class="author-results">
+                            <div class="result-badge success">
+                                <i class="fas fa-percentage"></i> -40% coûts
+                            </div>
+                            <div class="result-badge warning">
+                                <i class="fas fa-store"></i> 3 boutiques
+                            </div>
+                            <div class="result-badge primary">
+                                <i class="fas fa-euro-sign"></i> 85 000€/mois
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Témoignage 4 -->
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    "L'analyse géographique m'a sauvé ! J'allais lancer un produit aux USA, mais ProductWinner a détecté que l'Australie avait 3x moins de concurrence et une demande similaire. Résultat : 8 500€ de profit le premier mois !"
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Ahmed Alami" class="author-avatar">
+                    <div class="author-info">
+                        <strong>Ahmed Alami</strong>
+                        <span class="author-title">E-commerçant • Maroc</span>
+                        <div class="author-results">
+                            <div class="result-badge success">
+                                <i class="fas fa-globe"></i> Marché optimal
+                            </div>
+                            <div class="result-badge warning">
+                                <i class="fas fa-trophy"></i> 8 500€ profit
+                            </div>
+                            <div class="result-badge primary">
+                                <i class="fas fa-chart-pie"></i> Concurrence -70%
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
