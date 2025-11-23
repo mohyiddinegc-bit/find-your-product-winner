@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Winner AI</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        .header h1 {
+            color: #6366f1;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .metric-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .product-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #6366f1;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: #10b981;
+            color: white;
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Product Winner AI</h1>
+            <p>Intelligence Avancée pour Détecter les Produits Gagnants</p>
+        </div>
+
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-value">74.5</div>
+                <div>Score Moyen</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">8,247</div>
+                <div>Commandes 30j</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">18.8€</div>
+                <div>Marge Moyenne</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6</div>
+                <div>Winners Identifiés</div>
+            </div>
+        </div>
+
+        <h2>🏆 Top Products</h2>
+        <div class="products">
+            <div class="product-card">
+                <span class="badge">WINNER</span>
+                <h3>Kit Jardinage LED</h3>
+                <p>Score: 87/100</p>
+                <p>Marge: 48.5€</p>
+                <p>Commandes: 1,500</p>
+                <button onclick="alert('Analyse du produit')">Analyser</button>
+            </div>
+            
+            <div class="product-card">
+                <span class="badge">WINNER</span>
+                <h3>Oreiller Cervical</h3>
+                <p>Score: 81/100</p>
+                <p>Marge: 33.8€</p>
+                <p>Commandes: 1,800</p>
+                <button onclick="alert('Analyse du produit')">Analyser</button>
+            </div>
+            
+            <div class="product-card">
+                <span class="badge">WINNER</span>
+                <h3>Lampe Solaire</h3>
+                <p>Score: 72/100</p>
+                <p>Marge: 37.7€</p>
+                <p>Commandes: 890</p>
+                <button onclick="alert('Analyse du produit')">Analyser</button>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="alert('🎉 FÉLICITATIONS ! L\\'application fonctionne parfaitement !')" style="padding: 15px 30px; font-size: 1.2rem;">
+                🎯 TESTER L'APPLICATION
+            </button>
+        </div>
+    </div>
+</body>
+</html>
