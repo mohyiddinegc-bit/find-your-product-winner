@@ -177,27 +177,36 @@
             transform: translateY(-2px);
         }
 
-        /* Quick Actions */
+        /* Quick Actions - CORRIGÉ */
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-top: 30px;
         }
 
         .quick-action {
-            background: #f8fafc;
+            background: rgba(255, 255, 255, 0.2);
             padding: 20px;
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+            color: white;
         }
 
         .quick-action:hover {
-            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.3);
             transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .quick-action i {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
         }
 
         /* Results */
@@ -220,7 +229,7 @@
 
         .product-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 25px;
         }
@@ -259,7 +268,7 @@
             font-size: 0.9rem;
         }
 
-        /* Top Winners */
+        /* Top Winners avec images */
         .winners-section {
             padding: 80px 20px;
             background: white;
@@ -295,6 +304,18 @@
             transform: translateY(-10px);
         }
 
+        .winner-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
         .winner-badge {
             background: var(--success);
             color: white;
@@ -309,6 +330,7 @@
 
         .winner-content {
             padding: 25px;
+            position: relative;
         }
 
         .winner-metrics {
@@ -333,49 +355,106 @@
             color: #64748b;
         }
 
-        /* How It Works */
+        /* How It Works avec flèches créatives */
         .how-it-works {
             padding: 80px 20px;
             background: #f8fafc;
+            position: relative;
+            overflow: hidden;
         }
 
-        .steps {
+        .how-it-works::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient);
+        }
+
+        .process-steps {
             max-width: 1000px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 80px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: var(--gradient);
+            z-index: 1;
         }
 
         .step {
             text-align: center;
-            padding: 30px;
+            padding: 30px 20px;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-connector {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            width: 50px;
+            height: 30px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
         }
 
         .step-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient);
+            width: 100px;
+            height: 100px;
+            background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            color: white;
-            font-size: 2rem;
+            color: var(--primary);
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid var(--primary);
+            position: relative;
+            z-index: 4;
         }
 
         .step-number {
             background: var(--primary);
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 15px;
             font-weight: 700;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 4;
+        }
+
+        .step h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .step p {
+            color: #64748b;
+            line-height: 1.6;
         }
 
         /* CTA Section */
@@ -453,6 +532,22 @@
                 margin: -40px 20px 60px;
                 padding: 30px 20px;
             }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .step-connector {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -488,19 +583,19 @@
             <div class="quick-actions">
                 <div class="quick-action" onclick="showExample('aliexpress')">
                     <i class="fas fa-shopping-cart"></i>
-                    <div>Exemple AliExpress</div>
+                    <div>AliExpress</div>
                 </div>
                 <div class="quick-action" onclick="showExample('shopify')">
                     <i class="fas fa-store"></i>
-                    <div>Exemple Shopify</div>
+                    <div>Shopify</div>
                 </div>
                 <div class="quick-action" onclick="showExample('amazon')">
                     <i class="fab fa-amazon"></i>
-                    <div>Exemple Amazon</div>
+                    <div>Amazon</div>
                 </div>
                 <div class="quick-action" onclick="showRandomWinner()">
-                    <i class="fas fa-chart-line"></i>
-                    <div>Produit Winner Aléatoire</div>
+                    <i class="fas fa-random"></i>
+                    <div>Aléatoire</div>
                 </div>
             </div>
         </div>
@@ -535,28 +630,37 @@
         </div>
     </section>
 
-    <!-- How It Works -->
+    <!-- How It Works avec flèches créatives -->
     <section class="how-it-works" id="how-it-works">
         <h2 class="section-title">⚡ Comment Nous Détectons les Winners</h2>
-        <div class="steps">
+        <div class="process-steps">
             <div class="step">
                 <div class="step-number">1</div>
                 <div class="step-icon"><i class="fas fa-database"></i></div>
-                <h3>Collecte de Données</h3>
-                <p>Nous analysons en temps réel AliExpress, Shopify, Amazon, TikTok et les réseaux sociaux</p>
+                <h3>Collecte Intelligente</h3>
+                <p>Nous scannons en temps réel AliExpress, Shopify, Amazon, TikTok et les réseaux sociaux</p>
             </div>
+            
+            <div class="step-connector" style="left: 25%;">➡️</div>
+            
             <div class="step">
                 <div class="step-number">2</div>
                 <div class="step-icon"><i class="fas fa-brain"></i></div>
                 <h3>Analyse IA Avancée</h3>
                 <p>Notre algorithme évalue 50+ critères : tendances, concurrence, marges, saisonnalité</p>
             </div>
+            
+            <div class="step-connector" style="left: 50%;">➡️</div>
+            
             <div class="step">
                 <div class="step-number">3</div>
                 <div class="step-icon"><i class="fas fa-chart-bar"></i></div>
-                <h3>Scoring Intelligent</h3>
+                <h3>Scoring Prédictif</h3>
                 <p>Chaque produit reçoit un score de 1 à 100 basé sur son potentiel de profit réel</p>
             </div>
+            
+            <div class="step-connector" style="left: 75%;">➡️</div>
+            
             <div class="step">
                 <div class="step-number">4</div>
                 <div class="step-icon"><i class="fas fa-rocket"></i></div>
@@ -586,7 +690,7 @@
     </footer>
 
     <script>
-        // Données mockées pour les produits winners
+        // Données mockées pour les produits winners avec images
         const topWinners = [
             {
                 id: 1,
@@ -597,7 +701,8 @@
                 orders: 12500,
                 supplier: "AliExpress",
                 trend: "+320%",
-                badge: "🔥 TRENDING"
+                badge: "🔥 TRENDING",
+                image: "⌚"
             },
             {
                 id: 2,
@@ -608,7 +713,8 @@
                 orders: 8400,
                 supplier: "CJ Dropshipping",
                 trend: "+180%",
-                badge: "⭐ POPULAIRE"
+                badge: "⭐ POPULAIRE",
+                image: "💡"
             },
             {
                 id: 3,
@@ -619,7 +725,8 @@
                 orders: 15600,
                 supplier: "1688.com",
                 trend: "+210%",
-                badge: "🚀 CROISSANCE"
+                badge: "🚀 CROISSANCE",
+                image: "📱"
             },
             {
                 id: 4,
@@ -630,7 +737,8 @@
                 orders: 7200,
                 supplier: "AliExpress",
                 trend: "+280%",
-                badge: "💎 PREMIUM"
+                badge: "💎 PREMIUM",
+                image: "🧘"
             },
             {
                 id: 5,
@@ -641,7 +749,8 @@
                 orders: 5300,
                 supplier: "Shopify",
                 trend: "+150%",
-                badge: "🌿 SAIN"
+                badge: "🌿 SAIN",
+                image: "🌱"
             }
         ];
 
@@ -773,10 +882,11 @@
             const previewContainer = document.querySelector('.winners-preview .winners-grid');
             previewContainer.innerHTML = topWinners.slice(0, 4).map(winner => `
                 <div class="winner-card">
-                    <div style="position: relative;">
-                        <div class="winner-badge">${winner.badge}</div>
+                    <div class="winner-image">
+                        ${winner.image}
                     </div>
                     <div class="winner-content">
+                        <div class="winner-badge">${winner.badge}</div>
                         <h4 style="margin-bottom: 15px;">${winner.name}</h4>
                         <div class="winner-metrics">
                             <div class="winner-metric">
@@ -830,14 +940,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             displayTopWinnersPreview();
             
-            // Remplir la section des winners
+            // Remplir la section des winners avec images
             const winnersContainer = document.querySelector('.winners-section .winners-grid');
             winnersContainer.innerHTML = topWinners.map(winner => `
                 <div class="winner-card">
-                    <div style="position: relative;">
-                        <div class="winner-badge">${winner.badge}</div>
+                    <div class="winner-image">
+                        ${winner.image}
                     </div>
                     <div class="winner-content">
+                        <div class="winner-badge">${winner.badge}</div>
                         <h4 style="margin-bottom: 15px;">${winner.name}</h4>
                         <div style="color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">
                             <i class="fas fa-tag"></i> ${winner.supplier} • <i class="fas fa-chart-line"></i> ${winner.trend}
